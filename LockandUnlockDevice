@@ -1,0 +1,33 @@
+package Android;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+public class LockandUnlock {
+
+    public static void main(String[] args) throws Exception {
+        DesiredCapabilities cap = new DesiredCapabilities();
+        cap.setCapability("deviceName", "may23");
+        cap.setCapability("platformName", "ANDROID");
+        cap.setCapability("platformVersion", "8.1.0");
+        cap.setCapability("appPackage", "io.appium.android.apis");
+        cap.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
+       // cap.setCapability("unlockType","pin");
+       // cap.setCapability("unlockKey","1111");
+        cap.setCapability("unlockType","pattern");
+        cap.setCapability("unlockKey","123456");
+        AndroidDriver<MobileElement> driver= new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),cap);
+
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+        ((AndroidDriver) driver).lockDevice();
+        System.out.println(((AndroidDriver) driver).isDeviceLocked());
+        ((AndroidDriver) driver).unlockDevice();
+
+
+    }
+}
