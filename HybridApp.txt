@@ -1,0 +1,70 @@
+package appiumScripts;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
+
+public class HybridAppRealVIVO {
+	
+public static	AndroidDriver<MobileElement> driver;
+    
+    @Test
+	public void chromeTest() throws MalformedURLException, InterruptedException {
+		// TODO Auto-generated method stub
+		
+		DesiredCapabilities cap= new DesiredCapabilities();
+		cap.setCapability("deviceName", "96352732140005T");
+		cap.setCapability("platformName", "ANDROID");
+		cap.setCapability("platformVersion", "11");
+		cap.setCapability("appPackage", "com.android.chrome");
+		cap.setCapability("appActivity", "com.google.android.apps.chrome.Main");
+		cap.setCapability("chromedriverExecutable", "C:\\Users\\vishal mittal\\Downloads\\chromedriver_win32 (29)\\chromedriver.exe");
+		driver = new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),cap);
+		
+             driver.findElementById("com.android.chrome:id/terms_accept").click();
+             Thread.sleep(3000);
+             driver.findElementById("com.android.chrome:id/next_button").click();
+             
+           //  Thread.sleep(2000);
+           driver.findElementById("com.android.chrome:id/negative_button").click();
+             
+             Thread.sleep(10000);
+             
+             driver.findElementByXPath("//*[@text='Flipkart']").click();
+             Set<String> cns=	driver.getContextHandles();
+     		System.out.println(cns + "\n\n");
+     		Thread.sleep(3000);
+     		driver.context("WEBVIEW_chrome");
+     		Thread.sleep(3000);
+     		
+     		driver.findElementByXPath("//*[@class='css-1dbjc4n r-9kzrz9 r-u8s1d']/descendant::div[10]").click();
+             
+     	//	driver.findElementById("input-searchsearchpage-input").click();
+     		
+     		Thread.sleep(5000);
+     		
+     		driver.findElementByXPath("//input[@type='search']").sendKeys("books");
+     		
+     		driver.pressKey(new KeyEvent(AndroidKey.ENTER));
+     		
+     		driver.context("NATIVE_APP");
+    		
+    		Thread.sleep(2000);
+    		driver.findElementById("com.android.chrome:id/menu_button").click();
+    		
+    		Thread.sleep(2000);
+    		
+    		driver.findElementByAccessibilityId("History").click();
+             
+             
+	}
+
+}
