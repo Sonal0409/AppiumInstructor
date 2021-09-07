@@ -1,0 +1,300 @@
+Steps to execute once the device is created:
+
+ADB commands:
+
+> List devices connected to your system
+
+# adb devices
+
+> Install app on the device using adb
+
+Download app from https://github.com/appium/appium/blob/master/sample-code/apps/ApiDemos-debug.apk
+
+# adb install C:\Users\sonal\Documents\Appium-Simplelearn\apkfiles\ApiDemos.apk
+
+> APP PACKAGE & APP ACTIVITY
+
+# adb shell
+  # dumpsys window windows | grep -E 'mCurrentFocus'
+
+appPackage: io.appium.android.apis
+appActivity: io.appium.android.apis.ApiDemos
+
+exit
+
+> UnInstall an APP
+
+adb unistall Apppackagename
+
+# adb uninstall io.appium.android.apis
+
+> > Install app on the device using adb again
+
+ adb install C:\Users\sonal\Documents\Appium-Simplelearn\apkfiles\ApiDemos.apk
+
+
+*******************************************************************************
+
+Check the set up and install the app using appium
+
+package appiumInstructor;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class ApiDemosCheck {
+
+	public static void main(String[] args) throws MalformedURLException {
+		// TODO Auto-generated method stub
+
+		
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.APP, "C:\\Users\\sonal\\Documents\\Appium-Simplelearn\\apkfiles\\ApiDemos.apk");
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Sep6");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.0");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME,"ANDROID");
+		AndroidDriver<MobileElement> driver= new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),cap);
+	}
+
+}
+
+*********************************************************************************
+Starting appium inspector and installing the app - Desired cappabilties
+
+{
+  "platformName": "Android",
+  "platformVersion": "8.1.0",
+  "deviceName": "Sep6",
+  "app": "C:\\Users\\sonal\\Documents\\Appium-Simplelearn\\apkfiles\\ApiDemos.apk"
+}
+
+Clcik on start session, app will be installed and screenshot will be available
+
+*************************************************
+
+Install app by drag and drop and use app package and app activity to start app
+
+
+DesiredCappabilties:
+{
+  "platformName": "Android",
+  "platformVersion": "8.1.0",
+  "deviceName": "Sep6",
+  "appPackage": "io.appium.android.apis",
+  "appActivity": "io.appium.android.apis.preference.SwitchPreference"
+}
+
+
+Script for setup
+
+
+package appiumInstructor;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class ApiDemosCheck2 {
+	
+	public static void main(String[] args) throws MalformedURLException {
+		// TODO Auto-generated method stub
+
+		
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Sep6");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.0");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME,"ANDROID");
+		cap.setCapability("appPackage", "io.appium.android.apis");
+		//cap.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
+		cap.setCapability("appActivity", "io.appium.android.apis.preference.SwitchPreference");
+		AndroidDriver<MobileElement> driver= new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),cap);
+		
+	}
+
+}
+
+
+
+*********************************************
+
+
+Locator Strategies:
+
+Accessibility ID   ---> get value from attribute cont-desc , it is very fast, reliable
+ID  --> get value from attribute --> resource-id , it is the unique identifier of the element, most of tiems given by developers uniquely
+ClassName --> get the value from attribute --> Class
+name : not applied for android
+XPATH : //tagname[@attribute='value'] --> here tagname is class attribute
+UiAutomator2, UiSelector
+image -- not used
+
+********************************
+
+ANDROID UIAUTOMATOR FRAMEWORK
+https://developer.android.com/reference/androidx/test/uiautomator/UiSelector
+
+For example:
+
+https://appium.io/docs/en/writing-running-appium/tutorial/swipe/android-simple/
+
+
+package appiumInstructor;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.FindsByAndroidUIAutomator;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class UiAutomatorScroll {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		// TODO Auto-generated method stub
+		
+		
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Sep6");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.0");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME,"ANDROID");
+		cap.setCapability("appPackage", "io.appium.android.apis");
+		cap.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
+		//cap.setCapability("appActivity", "io.appium.android.apis.preference.SwitchPreference");
+		AndroidDriver<MobileElement> driver= new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),cap);
+
+		MobileElement m1= (MobileElement) ((FindsByAndroidUIAutomator)driver)
+				.findElementByAndroidUIAutomator("new UiSelector().text(\"Views\")");
+		System.out.println(m1.getText());
+		m1.click();
+
+		Thread.sleep(2000);
+	
+//scrolling using uiAutomator Frameowrk
+
+		
+		MobileElement m2 = (MobileElement) ((FindsByAndroidUIAutomator)driver)
+				.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true))" +
+				         ".scrollIntoView(new UiSelector().text(\"TextFields\"))");
+		
+		m2.click();
+		
+		
+		driver.navigate().back();
+		
+				
+	}
+}
+	
+
+
+*******************************
+
+Script to test checkbox & switches
+
+
+package appiumInstructor;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+
+public class ApiDemosCheckbox {
+
+	public static void main(String[] args) throws MalformedURLException, InterruptedException {
+		// TODO Auto-generated method stub
+		
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Sep6");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.1.0");
+		cap.setCapability(MobileCapabilityType.PLATFORM_NAME,"ANDROID");
+		cap.setCapability("appPackage", "io.appium.android.apis");
+		//cap.setCapability("appActivity", "io.appium.android.apis.ApiDemos");
+		cap.setCapability("appActivity", "io.appium.android.apis.preference.SwitchPreference");
+		AndroidDriver<MobileElement> driver= new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),cap);
+		boolean output1= driver.findElementById("android:id/checkbox").isSelected();
+		System.out.println("is checkbox selected"+output1);
+		driver.findElementById("android:id/checkbox").click();
+		String output2=driver.findElementById("android:id/checkbox").getAttribute("checked");
+		Thread.sleep(2000);
+		System.out.println("is it selected now"+output2);
+		Thread.sleep(2000);
+		driver.findElementsById("android:id/switch_widget").get(0).click();
+		
+	String text=	driver.findElementsById("android:id/switch_widget").get(0).getAttribute("text");
+	System.out.println(text);
+
+	}
+
+**********************************************************
+DROPDOWN DEMO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
